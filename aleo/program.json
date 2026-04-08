@@ -1,0 +1,7 @@
+{
+  "program": "ppv_access.aleo",
+  "version": "0.1.0",
+  "description": "A minimal Aleo pay-per-view gate that validates a minimum payment amount.",
+  "license": "MIT"
+}
+

@@ -1,0 +1,21 @@
+{
+  "name": "aleo-pay-per-view",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w frontend\" \"npm run dev -w backend\"",
+    "build": "npm run build -w frontend",
+    "start": "npm run start -w backend",
+    "aleo:estimate:testnet": "node aleo/scripts/deploy-testnet.js --estimate-only",
+    "aleo:deploy:testnet": "node aleo/scripts/deploy-testnet.js"
+  },
+  "devDependencies": {
+    "@provablehq/sdk": "^0.10.1",
+    "concurrently": "^9.1.2"
+  }
+}

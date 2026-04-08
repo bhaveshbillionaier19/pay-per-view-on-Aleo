@@ -1,0 +1,9 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="720" fill="#1F2937"/>
+  <rect x="72" y="72" width="1136" height="576" rx="28" fill="#0F172A" stroke="#64748B" stroke-width="8"/>
+  <circle cx="370" cy="360" r="114" fill="#EA580C"/>
+  <polygon points="332,300 332,420 432,360" fill="white"/>
+  <text x="560" y="318" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700">Video 3</text>
+  <text x="560" y="396" fill="#FDBA74" font-family="Arial, Helvetica, sans-serif" font-size="30">One-time access token enforced</text>
+</svg>
+

@@ -1,0 +1,15 @@
+{
+  "programId": "ppv_access.aleo",
+  "functionName": "pay_and_verify",
+  "publicInputs": {
+    "videoId": "1",
+    "amount": 1,
+    "minimumAmount": 1
+  },
+  "result": true,
+  "paymentReference": "7a3ec20f-3f64-4bb0-88bd-b1f6e21c4501",
+  "generatedAt": "2026-04-08T10:00:00.000Z",
+  "expiresAt": "2026-04-08T10:05:00.000Z",
+  "proofHash": "mocked-on-the-frontend"
+}
+

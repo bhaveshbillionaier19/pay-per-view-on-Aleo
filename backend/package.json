@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "build": "echo \"Backend build step not required\"",
     "dev": "node --watch src/index.js",
     "start": "node src/index.js"
   },
@@ -16,4 +17,3 @@
     "jsonwebtoken": "^9.0.2"
   }
 }
-

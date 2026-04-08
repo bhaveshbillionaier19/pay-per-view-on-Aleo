@@ -12,6 +12,7 @@ frontend/dist
 backend/.env
 backend/.env.example
 frontend/.env
+frontend/.env.example
 
 aleo/build
 aleo/.env

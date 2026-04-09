@@ -206,6 +206,32 @@ export default function App() {
     return videos.find((video) => video.id === playerState.id) || null;
   }, [playerState, videos]);
 
+  const featuredVideo = useMemo(
+    () => videos.find((video) => video.featured) || videos[0] || null,
+    [videos],
+  );
+
+  const statItems = useMemo(
+    () => [
+      {
+        label: 'Network',
+        value: paymentConfig?.chainId || 'testnetbeta',
+        detail: 'Aleo wallet payment flow',
+      },
+      {
+        label: 'Unlock Window',
+        value: '5 mins',
+        detail: 'One-time JWT access token',
+      },
+      {
+        label: 'Catalog',
+        value: `${videos.length}`,
+        detail: 'Premium videos ready to unlock',
+      },
+    ],
+    [paymentConfig, videos.length],
+  );
+
   return (
     <main className="app-shell">
       <section className="hero">
@@ -217,11 +243,42 @@ export default function App() {
           <WalletMultiButton />
         </div>
         <p className="eyebrow">Aleo Pay-Per-View</p>
-        <h1>Wallet payment. Verified access. Embedded playback.</h1>
-        <p className="hero-copy">
-          This demo asks the user wallet to send a public `credits.aleo` payment on Aleo testnet, verifies the
-          transaction on the backend, and then unlocks a short-lived one-time token for video playback.
-        </p>
+        <div className="hero-grid">
+          <div className="hero-copy-block">
+            <h1>Wallet payment. Verified access. Embedded playback.</h1>
+            <p className="hero-copy">
+              A polished PPV demo built for product showcases: users connect an Aleo wallet, approve a testnet
+              payment, and unlock premium YouTube playback without exposing raw watch links.
+            </p>
+
+            <div className="hero-pill-row">
+              <span className="hero-pill">Aleo Testnet Payments</span>
+              <span className="hero-pill">One-Time Access Tokens</span>
+              <span className="hero-pill">Hidden YouTube Delivery</span>
+            </div>
+          </div>
+
+          <aside className="hero-feature-card">
+            <span className="hero-feature-label">Featured Sample</span>
+            <h2>{featuredVideo?.title || 'Loading featured content...'}</h2>
+            <p>{featuredVideo?.summary || 'Preparing the featured implementation walkthrough for this demo.'}</p>
+            <div className="hero-feature-meta">
+              <span>{featuredVideo?.category || 'Wallet Demo'}</span>
+              <span>{featuredVideo?.duration || 'Pending'}</span>
+              <span>{featuredVideo ? `${featuredVideo.price} Aleo credit` : '1 Aleo credit'}</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section className="stat-grid">
+        {statItems.map((item) => (
+          <article className="stat-card" key={item.label}>
+            <span className="stat-label">{item.label}</span>
+            <strong className="stat-value">{item.value}</strong>
+            <p className="stat-detail">{item.detail}</p>
+          </article>
+        ))}
       </section>
 
       <section className="status-panel">
@@ -238,7 +295,7 @@ export default function App() {
         <div className="catalog-panel">
           <div className="section-heading">
             <h2>Locked videos</h2>
-            <span>{loading ? 'Loading...' : `${videos.length} items`}</span>
+            <span>{loading ? 'Loading...' : `${videos.length} premium demos`}</span>
           </div>
 
           {loading ? <div className="empty-card">Loading catalog...</div> : null}
@@ -247,12 +304,21 @@ export default function App() {
 
           <div className="video-grid">
             {videos.map((video) => (
-              <article className="video-card" key={video.id}>
+              <article className={`video-card${video.featured ? ' featured-video-card' : ''}`} key={video.id}>
                 <img className="thumbnail" src={video.thumbnailUrl} alt={`${video.title} thumbnail`} />
                 <div className="video-card-body">
-                  <div>
+                  <div className="video-copy">
+                    <div className="video-heading-row">
+                      <span className="video-badge">{video.category}</span>
+                      {video.featured ? <span className="featured-badge">Featured</span> : null}
+                    </div>
                     <h3>{video.title}</h3>
-                    <p>{video.price} Aleo credit + wallet network fee</p>
+                    <p>{video.summary}</p>
+                    <div className="video-meta-row">
+                      <span>{video.duration}</span>
+                      <span>{video.price} Aleo credit</span>
+                      <span>Wallet fee applies</span>
+                    </div>
                   </div>
                   <div className="video-actions">
                     <button
@@ -293,7 +359,10 @@ export default function App() {
 
           {!playerState ? (
             <div className="player-placeholder">
-              <p>The YouTube link stays hidden until the wallet payment is verified.</p>
+              <div className="player-placeholder-copy">
+                <strong>Presentation-ready playback</strong>
+                <p>The YouTube embed appears only after the wallet payment is verified and the short-lived token is consumed.</p>
+              </div>
             </div>
           ) : (
             <div className="player-wrapper">
@@ -308,7 +377,16 @@ export default function App() {
               <div className="player-meta">
                 <h3>{playerState.title}</h3>
                 <p>Access delivered through backend payment verification and a one-time JWT gate.</p>
-                {activeVideo ? <p>Price paid: {activeVideo.price} Aleo credit.</p> : null}
+                {activeVideo ? (
+                  <>
+                    <p>{activeVideo.summary}</p>
+                    <div className="video-meta-row">
+                      <span>{activeVideo.category}</span>
+                      <span>{activeVideo.duration}</span>
+                      <span>Price paid: {activeVideo.price} Aleo credit</span>
+                    </div>
+                  </>
+                ) : null}
               </div>
             </div>
           )}

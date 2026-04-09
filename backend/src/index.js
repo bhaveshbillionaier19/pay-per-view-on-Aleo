@@ -17,6 +17,7 @@ app.use(
     origin: config.frontendOrigin,
   }),
 );
+app.set('trust proxy', true);
 app.use(
   helmet({
     crossOriginResourcePolicy: { policy: 'cross-origin' },
@@ -54,7 +55,9 @@ app.get('/health', (_request, response) => {
 });
 
 app.get('/videos', (request, response) => {
-  const baseUrl = `${request.protocol}://${request.get('host')}`;
+  const forwardedProto = request.get('x-forwarded-proto');
+  const protocol = forwardedProto || request.protocol;
+  const baseUrl = `${protocol}://${request.get('host')}`;
 
   response.json({
     videos: videos.map((video) => ({
@@ -62,6 +65,10 @@ app.get('/videos', (request, response) => {
       title: video.title,
       price: video.price,
       priceMicrocredits: video.price * 1_000_000,
+      duration: video.duration,
+      category: video.category,
+      summary: video.summary,
+      featured: Boolean(video.featured),
       thumbnailUrl: `${baseUrl}/thumbnails/${video.id}.svg`,
       locked: true,
     })),
